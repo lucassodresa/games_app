@@ -1,11 +1,15 @@
+require("dotenv").config();
 const express = require("express");
-const app = express();
+const mongoose = require("mongoose");
 const port = 3000;
+const app = express();
+const routes = require("./routes");
 
-app.get("/", (req, res) => {
-  res.send("Lucas e tiago makinas");
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+app.use("/api", routes);
+
+app.listen(port, () => console.log("esta rodando"));
