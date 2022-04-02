@@ -1,23 +1,10 @@
 const express = require("express")
+const { UserSchema } = require("../constants/schemas")
 const { signup } = require("../controllers/AuthController")
-const UserModel = require("../models/UserModel")
+const validateBody = require("../middleware/validateBody")
 
 const router = express.Router()
 
-router.post(
-  "/signup",
-  (req, res, next) => {
-    const body = req.body
-
-    if (body.password === undefined) {
-      return res.status(400).jsend.fail({
-        message: "password is missing"
-      })
-    }
-    console.log("go to next")
-    next()
-  },
-  signup
-)
+router.post("/signup", validateBody(UserSchema.signup), signup)
 
 module.exports = router

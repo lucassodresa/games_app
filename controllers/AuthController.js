@@ -1,18 +1,31 @@
+const { StatusCodes } = require("http-status-codes")
 const UserModel = require("../models/UserModel")
 
 const signup = async (req, res) => {
-  const body = req.body
+  try {
+    const body = req.body
+    const { email } = body
 
-  const user = new UserModel({
-    ...body
-  })
+    const alreadyExistUserEmail = await UserModel.findOne({ email })
+    if (alreadyExistUserEmail) {
+      return res
+        .status(StatusCodes.CONFLICT)
+        .jsend.fail({ message: "Email already exist." })
+    }
 
-  await user.save()
+    const user = new UserModel({ ...body })
 
-  return res.jsend.success({
-    message: "user created!",
-    user: body
-  })
+    await user.save()
+
+    return res.status(StatusCodes.CREATED).jsend.success({
+      message: "User created!",
+      user: body
+    })
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .jsend.error({ message: error })
+  }
 }
 
 module.exports = { signup }
