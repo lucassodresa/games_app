@@ -1,8 +1,23 @@
-const express = require("express");
-const router = express.Router();
+const express = require("express")
+const { signup } = require("../controllers/AuthController")
+const UserModel = require("../models/UserModel")
 
-router.get("/signup", async (req, res) => {
-  setTimeout(() => res.send("signup"), 5000);
-});
+const router = express.Router()
 
-module.exports = router;
+router.post(
+  "/signup",
+  (req, res, next) => {
+    const body = req.body
+
+    if (body.password === undefined) {
+      return res.status(400).jsend.fail({
+        message: "password is missing"
+      })
+    }
+    console.log("go to next")
+    next()
+  },
+  signup
+)
+
+module.exports = router

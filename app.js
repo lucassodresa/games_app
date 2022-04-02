@@ -1,15 +1,18 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const port = 3000;
-const app = express();
-const routes = require("./routes");
+require("dotenv").config()
+const express = require("express")
+const mongoose = require("mongoose")
+const jsend = require("jsend")
+
+const app = express()
+const routes = require("./routes")
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+  useUnifiedTopology: true
+})
 
-app.use("/api", routes);
+app.use(express.json())
+app.use(jsend.middleware)
+app.use("/api", routes)
 
-app.listen(port, () => console.log("esta rodando"));
+app.listen(process.env.PORT, () => console.log("Server running!"))
