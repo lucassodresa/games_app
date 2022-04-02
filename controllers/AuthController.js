@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs")
 const { StatusCodes } = require("http-status-codes")
 const UserModel = require("../models/UserModel")
+const { generateToken } = require("../utils/authentication")
 
 const signup = async (req, res) => {
   try {
@@ -56,9 +57,12 @@ const signin = async (req, res) => {
 
     user.password = undefined
 
+    const token = generateToken({ id: user.id }, "8h")
+
     return res.status(StatusCodes.OK).jsend.success({
       message: "Success login!",
-      user
+      user,
+      token
     })
   } catch (error) {
     return res
