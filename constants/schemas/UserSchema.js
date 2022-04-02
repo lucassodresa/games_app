@@ -6,4 +6,9 @@ const signup = yup.object({
   password: yup.string().max(255).required()
 })
 
-module.exports = { signup }
+const signin = yup.object({
+  email: yup.string().email().max(255).required(),
+  password: yup.string().max(255).required()
+})
+
+module.exports = { signup, signin }
