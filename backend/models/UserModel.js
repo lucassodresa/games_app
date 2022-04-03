@@ -1,6 +1,6 @@
-const { Schema, model } = require("mongoose")
-const uniqueValidator = require("mongoose-unique-validator")
-const bcrypt = require("bcryptjs")
+const { Schema, model } = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
+const bcrypt = require('bcryptjs')
 
 const UserSchema = new Schema(
   {
@@ -27,7 +27,7 @@ const UserSchema = new Schema(
       type: Number,
       validate: {
         validator: (value) => [1, 2].includes(value),
-        message: "{VALUE} is not a valid type"
+        message: '{VALUE} is not a valid type'
       },
       default: 2
     },
@@ -37,12 +37,12 @@ const UserSchema = new Schema(
     avatar: String
   },
   {
-    collection: "users",
+    collection: 'users',
     timestamps: true
   }
 )
 
-UserSchema.pre("save", async function (next) {
+UserSchema.pre('save', async function (next) {
   const hash = await bcrypt.hash(this.password, 10)
   this.password = hash
   next()
@@ -50,4 +50,4 @@ UserSchema.pre("save", async function (next) {
 
 UserSchema.plugin(uniqueValidator)
 
-module.exports = model("User", UserSchema)
+module.exports = model('User', UserSchema)

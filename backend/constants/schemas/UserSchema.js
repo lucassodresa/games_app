@@ -1,4 +1,4 @@
-const yup = require("yup")
+const yup = require('yup')
 
 const signup = yup.object({
   name: yup.string().max(255).required(),

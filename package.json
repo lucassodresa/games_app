@@ -1,25 +1,16 @@
 {
   "name": "games_app",
+  "private": true,
+  "workspaces": ["backend", "frontend"],
   "version": "1.0.0",
   "main": "index.js",
-  "author": "lucassodresa <lucas.sodresa@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.3",
-    "http-status-codes": "^2.2.0",
-    "jsend": "^1.1.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.9",
-    "mongoose-unique-validator": "^3.0.0",
-    "yup": "^0.32.11"
-  },
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon -L ./app"
+    "frontend": "cd frontend && yarn dev",
+    "backend":"cd backend && yarn dev",
+    "dev": "concurrently \"yarn backend\" \"yarn frontend\""
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "concurrently": "^7.1.0"
   }
 }

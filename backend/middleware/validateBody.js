@@ -1,5 +1,5 @@
 // libraries
-const { StatusCodes } = require("http-status-codes")
+const { StatusCodes } = require('http-status-codes')
 
 const validateBody = (schema) => {
   return async (req, res, next) => {

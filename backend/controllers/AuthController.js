@@ -1,7 +1,7 @@
-const bcrypt = require("bcryptjs")
-const { StatusCodes } = require("http-status-codes")
-const UserModel = require("../models/UserModel")
-const { generateToken } = require("../utils/authentication")
+const bcrypt = require('bcryptjs')
+const { StatusCodes } = require('http-status-codes')
+const UserModel = require('../models/UserModel')
+const { generateToken } = require('../utils/authentication')
 
 const signup = async (req, res) => {
   try {
@@ -11,7 +11,7 @@ const signup = async (req, res) => {
     if (alreadyExistUserEmail) {
       return res
         .status(StatusCodes.CONFLICT)
-        .jsend.fail({ message: "Email already exist." })
+        .jsend.fail({ message: 'Email already exist.' })
     }
 
     const user = new UserModel({ ...body })
@@ -19,7 +19,7 @@ const signup = async (req, res) => {
     await user.save()
 
     return res.status(StatusCodes.CREATED).jsend.success({
-      message: "User created!",
+      message: 'User created!',
       user: body
     })
   } catch (error) {
@@ -34,33 +34,33 @@ const signin = async (req, res) => {
     const body = req.body
 
     const user = await UserModel.findOne({ email: body.email }).select(
-      "+password"
+      '+password'
     )
 
     if (!user) {
       return res
         .status(StatusCodes.NOT_FOUND)
-        .jsend.fail({ message: "Email not found." })
+        .jsend.fail({ message: 'Email not found.' })
     }
 
     if (!user.active) {
       return res
         .status(StatusCodes.FORBIDDEN)
-        .jsend.fail({ message: "User inactive." })
+        .jsend.fail({ message: 'User inactive.' })
     }
 
     if (!(await bcrypt.compare(body.password, user.password))) {
       return res
         .status(StatusCodes.FORBIDDEN)
-        .jsend.fail({ message: "Wrong credentials." })
+        .jsend.fail({ message: 'Wrong credentials.' })
     }
 
     user.password = undefined
 
-    const token = generateToken({ id: user.id }, "8h")
+    const token = generateToken({ id: user.id }, '8h')
 
     return res.status(StatusCodes.OK).jsend.success({
-      message: "Success login!",
+      message: 'Success login!',
       user,
       token
     })
