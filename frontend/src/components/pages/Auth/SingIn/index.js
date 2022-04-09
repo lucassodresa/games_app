@@ -26,7 +26,7 @@ const SignIn = () => {
     resolver: yupResolver(SCHEMAS.USER.SIGNIN),
     mode: 'onChange'
   });
-  const api = useAxios({ withAuthorization: false });
+  const { api } = useAxios();
   const [, setLoggedUserInfo] = useRecoilState(loggedUserInfoState);
 
   const { mutate, isLoading } = useMutation(authService.signIn(api), {
