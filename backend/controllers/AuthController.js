@@ -1,74 +1,75 @@
-const bcrypt = require('bcryptjs')
-const { StatusCodes } = require('http-status-codes')
-const UserModel = require('../models/UserModel')
-const { generateToken } = require('../utils/authentication')
+const bcrypt = require('bcryptjs');
+const { StatusCodes } = require('http-status-codes');
+const UserModel = require('../models/UserModel');
+const { generateToken } = require('../utils/authentication');
 
-const signup = async (req, res) => {
+const signUp = async (req, res) => {
   try {
-    const body = req.body
+    const body = req.body;
 
-    const alreadyExistUserEmail = await UserModel.findOne({ email: body.email })
+    const alreadyExistUserEmail = await UserModel.findOne({
+      email: body.email
+    });
     if (alreadyExistUserEmail) {
       return res
         .status(StatusCodes.CONFLICT)
-        .jsend.fail({ message: 'Email already exist.' })
+        .jsend.fail({ message: 'Email already exist.' });
     }
 
-    const user = new UserModel({ ...body })
+    const user = new UserModel({ ...body });
 
-    await user.save()
+    await user.save();
 
     return res.status(StatusCodes.CREATED).jsend.success({
-      message: 'User created!',
-      user: body
-    })
+      message: 'User created!'
+    });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .jsend.error({ message: error })
+      .jsend.error({ message: error });
   }
-}
+};
 
-const signin = async (req, res) => {
+const signIn = async (req, res) => {
   try {
-    const body = req.body
+    const body = req.body;
 
     const user = await UserModel.findOne({ email: body.email }).select(
       '+password'
-    )
+    );
 
     if (!user) {
       return res
         .status(StatusCodes.NOT_FOUND)
-        .jsend.fail({ message: 'Email not found.' })
+        .jsend.fail({ message: 'Email not found.' });
     }
 
     if (!user.active) {
       return res
         .status(StatusCodes.FORBIDDEN)
-        .jsend.fail({ message: 'User inactive.' })
+        .jsend.fail({ message: 'User inactive.' });
     }
 
     if (!(await bcrypt.compare(body.password, user.password))) {
       return res
         .status(StatusCodes.FORBIDDEN)
-        .jsend.fail({ message: 'Wrong credentials.' })
+        .jsend.fail({ message: 'Wrong credentials.' });
     }
 
-    user.password = undefined
+    user.password = undefined;
 
-    const token = generateToken({ id: user.id }, '8h')
+    const token = generateToken({ id: user.id }, '8h');
 
     return res.status(StatusCodes.OK).jsend.success({
-      message: 'Success login!',
+      message: 'Success sign in!',
       user,
       token
-    })
+    });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .jsend.error({ message: error })
+      .jsend.error({ message: error });
   }
-}
+};
 
-module.exports = { signup, signin }
+module.exports = { signUp, signIn };

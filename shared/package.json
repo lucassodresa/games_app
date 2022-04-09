@@ -1,0 +1,10 @@
+{
+  "name": "@games_app/shared",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "dependencies": {
+    "yup": "^0.32.11"
+  }
+}

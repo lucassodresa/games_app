@@ -15,26 +15,26 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended" 
+    "plugin:react-hooks/recommended"
   ],
-    "rules": {
-      "react/react-in-jsx-scope": "off",
-      "no-var": "error",
-      "no-unused-vars": "warn",
-      "no-delete-var": "error",
-      "no-console": "warn",
-      "prefer-const": [
-        "error",
-        {
-            "destructuring": "any",
-            "ignoreReadBeforeAssign": false
-        }
-      ],
-      "react/display-name": "off",
-      "react/prop-types": "warn",
-      "react/no-string-refs": "warn",
-      "react/jsx-key": "warn",
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn"
-    }
+  "rules": {
+    "react/jsx-no-undef": "off",
+    "no-var": "error",
+    "no-unused-vars": "warn",
+    "no-delete-var": "error",
+    "no-console": "warn",
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "any",
+        "ignoreReadBeforeAssign": false
+      }
+    ],
+    "react/display-name": "off",
+    "react/prop-types": "warn",
+    "react/no-string-refs": "warn",
+    "react/jsx-key": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
+}

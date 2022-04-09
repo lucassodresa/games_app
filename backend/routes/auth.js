@@ -1,19 +1,19 @@
-const express = require('express')
-const { UserSchema } = require('../constants/schemas')
-const AuthController = require('../controllers/AuthController')
-const Middleware = require('../middleware')
+const express = require('express');
+const { SCHEMAS } = require('@games_app/shared');
+const AuthController = require('../controllers/AuthController');
+const Middleware = require('../middleware');
 
-const router = express.Router()
+const router = express.Router();
 
 router.post(
   '/signup',
-  Middleware.validateBody(UserSchema.signup),
-  AuthController.signup
-)
+  Middleware.validateBody(SCHEMAS.USER.SIGNUP),
+  AuthController.signUp
+);
 router.post(
   '/signin',
-  Middleware.validateBody(UserSchema.signin),
-  AuthController.signin
-)
+  Middleware.validateBody(SCHEMAS.USER.SIGNIN),
+  AuthController.signIn
+);
 
-module.exports = router
+module.exports = router;
