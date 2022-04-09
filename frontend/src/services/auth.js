@@ -1,15 +1,20 @@
 // libraries
-import api from './api';
 
-const signIn = async (payload) => {
-  const res = await api().post('/auth/signin', payload);
+const signIn = (axios) => async (payload) => {
+  const res = await axios().post('/auth/signin', payload);
   return res.data;
 };
 
-const signUp = async (payload) => {
-  const res = await api().post('/auth/signup', payload);
+const signUp = (axios) => async (payload) => {
+  const res = await axios().post('/auth/signup', payload);
 
   return res.data;
 };
 
-export default { signIn, signUp };
+const validateToken = (axios) => async () => {
+  const res = await axios().get('/auth/validateToken');
+
+  return res.data;
+};
+
+export default { signIn, signUp, validateToken };

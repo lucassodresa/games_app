@@ -1,14 +1,26 @@
-import React from 'react';
-import { Menu, Layout } from 'antd';
+import React, { useEffect } from 'react';
+import { Menu, Layout, Button } from 'antd';
 import {
   UserOutlined,
   VideoCameraOutlined,
   UploadOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import userService from '../../../services/user';
+import useAxios from '../../../hooks/useAxios';
+import useAuth from '../../../hooks/useAuth';
 const { Sider } = Layout;
 
 const Home = () => {
+  const api = useAxios({ withAuth: true });
+  const { logout } = useAuth();
+  const { data } = useQuery('userInfo', userService.getMe(api));
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <Sider trigger={null} collapsible collapsed={false}>
       <div className="logo" />
@@ -21,6 +33,9 @@ const Home = () => {
         </Menu.Item>
         <Menu.Item key="3" icon={<UploadOutlined />}>
           <Link to="/dfsdfsd">Qualquer lugar</Link>
+        </Menu.Item>
+        <Menu.Item key="4" icon={<UploadOutlined />}>
+          <Button onClick={logout}>Logout</Button>
         </Menu.Item>
       </Menu>
     </Sider>

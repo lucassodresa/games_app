@@ -11,6 +11,7 @@ import CustomButton from '../../../common/CustomButton';
 import { StyledLink, StyledSection } from '../styles';
 import { notifyError, notifySuccess } from '../../../../helpers/notifications';
 import { useNavigate } from 'react-router-dom';
+import useAxios from '../../../../hooks/useAxios';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -23,7 +24,9 @@ const SignUp = () => {
     mode: 'onChange'
   });
 
-  const { mutate, isLoading } = useMutation(authService.signUp, {
+  const api = useAxios();
+
+  const { mutate, isLoading } = useMutation(authService.signUp(api), {
     onSuccess: ({ data }) => {
       navigate('/signin');
       notifySuccess('Sign up', data?.message);
