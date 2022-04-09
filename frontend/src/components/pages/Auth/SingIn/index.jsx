@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from 'react-query';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { SCHEMAS } from '@games_app/shared';
 import CustomInput from '../../../common/CustomInput';
 import authService from '../../../../services/auth';
@@ -14,6 +13,7 @@ import { StyledLink, StyledSection } from '../styles';
 import { notifyError, notifySuccess } from '../../../../helpers/notifications';
 import { loggedUserInfoState } from '../../../../recoil/user';
 import { setToken } from '../../../../helpers/auth';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const navigate = useNavigate();
