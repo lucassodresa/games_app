@@ -1,7 +1,6 @@
 // libraries
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
-import { userTokenSelector } from '../recoil/user';
 
 // utils
 // import { getJWT, clearJWT } from "../utils/jwt"
