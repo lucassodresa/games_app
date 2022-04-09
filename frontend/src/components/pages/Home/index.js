@@ -9,12 +9,10 @@ import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import userService from '../../../services/user';
 import useAxios from '../../../hooks/useAxios';
-import useAuth from '../../../hooks/useAuth';
 const { Sider } = Layout;
 
 const Home = () => {
-  const api = useAxios({ withAuth: true });
-  const { logout } = useAuth();
+  const { api, logout } = useAxios({ withAuth: true });
   const { data } = useQuery('userInfo', userService.getMe(api));
 
   useEffect(() => {
