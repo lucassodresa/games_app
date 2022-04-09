@@ -24,7 +24,8 @@ const SignUp = () => {
     mode: 'onChange'
   });
 
-  const { api } = useAxios();
+  const api = useAxios();
+
   const { mutate, isLoading } = useMutation(authService.signUp(api), {
     onSuccess: ({ data }) => {
       navigate('/signin');
