@@ -45,13 +45,16 @@ const useAxios = (props) => {
     return axiosInstance;
   }, [logout, props]);
 
-  const { mutate, isLoading } = useMutation(authService.validateToken(api), {
-    onSuccess: () => {
-      setIsLoggedIn(true);
-      navigate('/');
-    },
-    onError: () => logout()
-  });
+  const { mutate, isLoading, isIdle } = useMutation(
+    authService.validateToken(api),
+    {
+      onSuccess: () => {
+        setIsLoggedIn(true);
+        navigate('/');
+      },
+      onError: () => logout()
+    }
+  );
 
   const login = useCallback(() => {
     mutate();
