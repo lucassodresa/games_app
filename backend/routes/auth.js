@@ -5,6 +5,12 @@ const Middleware = require('../middleware');
 
 const router = express.Router();
 
+router.get(
+  '/validateToken',
+  Middleware.validateToken,
+  AuthController.validateToken
+);
+
 router.post(
   '/signup',
   Middleware.validateBody(SCHEMAS.USER.SIGNUP),

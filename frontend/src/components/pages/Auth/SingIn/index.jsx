@@ -14,6 +14,7 @@ import { notifyError, notifySuccess } from '../../../../helpers/notifications';
 import { loggedUserInfoState } from '../../../../recoil/user';
 import { setToken } from '../../../../helpers/auth';
 import { useNavigate } from 'react-router-dom';
+import useAxios from '../../../../hooks/useAxios';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -25,9 +26,10 @@ const SignIn = () => {
     resolver: yupResolver(SCHEMAS.USER.SIGNIN),
     mode: 'onChange'
   });
+  const api = useAxios({ withAuthorization: false });
   const [, setLoggedUserInfo] = useRecoilState(loggedUserInfoState);
 
-  const { mutate, isLoading } = useMutation(authService.signIn, {
+  const { mutate, isLoading } = useMutation(authService.signIn(api), {
     onSuccess: ({ data: { message, user, token } }) => {
       setLoggedUserInfo(user);
       setToken(token);

@@ -72,4 +72,10 @@ const signIn = async (req, res) => {
   }
 };
 
-module.exports = { signUp, signIn };
+const validateToken = async (req, res) => {
+  return res.status(StatusCodes.OK).jsend.success({
+    message: 'Valid token.'
+  });
+};
+
+module.exports = { signUp, signIn, validateToken };

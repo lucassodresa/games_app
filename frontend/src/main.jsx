@@ -6,12 +6,15 @@ import { queryClient } from './services/queryClient';
 import App from './App';
 import 'antd/dist/antd.css';
 import './index.css';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <StrictMode>
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </QueryClientProvider>
     </RecoilRoot>
   </StrictMode>,
