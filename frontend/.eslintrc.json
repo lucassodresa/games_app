@@ -18,7 +18,7 @@
     "plugin:react-hooks/recommended"
   ],
   "rules": {
-    "react/react-in-jsx-scope": "off",
+    "react/jsx-no-undef": "off",
     "no-var": "error",
     "no-unused-vars": "warn",
     "no-delete-var": "error",

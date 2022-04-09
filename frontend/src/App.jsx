@@ -1,25 +1,19 @@
-import { Spin } from 'antd';
-import { Suspense, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import SignUp from './components/pages/Auth/SignUp';
 import SignIn from './components/pages/Auth/SingIn';
 import Home from './components/pages/Home';
-import useAxios from './hooks/useAxios';
+import useAuth from './hooks/useAuth';
 import { isLoggedInSelector } from './recoil/user';
 
 function App() {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
-  const { login, isLoadingLogin } = useAxios({ withAuth: true });
+  const { login } = useAuth();
 
-  useEffect(() => {
-    login();
-  }, [login]);
-
-  // if (isLoadingLogin) return <Spin />;
   return (
     <div className="App">
+      {login()}
       <Routes>
         <Route
           path="/signup"
