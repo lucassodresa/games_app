@@ -1,17 +1,17 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import CustomInput from '../../../common/CustomInput';
+import CustomInput from '../../../components/common/CustomInput';
 import { SCHEMAS } from '@games_app/shared';
 import { useMutation } from 'react-query';
-import authService from '../../../../services/auth';
-import CustomParagraph from '../../../common/CustomParagraph';
-import CustomForm from '../../../common/CustomForm';
-import CustomHeading1 from '../../../common/CustomHeading1';
-import CustomButton from '../../../common/CustomButton';
+import authService from '../../../services/auth';
+import CustomParagraph from '../../../components/common/CustomParagraph';
+import CustomForm from '../../../components/common/CustomForm';
+import CustomHeading1 from '../../../components/common/CustomHeading1';
+import CustomButton from '../../../components/common/CustomButton';
 import { StyledLink, StyledSection } from '../styles';
-import { notifyError, notifySuccess } from '../../../../helpers/notifications';
+import { notifyError, notifySuccess } from '../../../helpers/notifications';
 import { useNavigate } from 'react-router-dom';
-import useAxios from '../../../../hooks/useAxios';
+import useAxios from '../../../hooks/useAxios';
 
 const SignUp = () => {
   const navigate = useNavigate();
