@@ -1,52 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Divider } from 'antd';
-import { TeamOutlined, RocketOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import userService from '../../services/user';
+
 import useAxios from '../../hooks/useAxios';
-import {
-  StyledAvatar,
-  StyledAvatarContainer,
-  StyledLogoutButton,
-  StyledMenu,
-  StyledName,
-  StyledNavLink,
-  StyledSider,
-  StyleMenuTitle,
-  StyleSpan
-} from './styles';
+import { StyledLogoutButton, StyledSider } from './styles';
+import AvatarContainer from '../AvatarContainer';
 
-const SideNav = () => {
-  const { api, logout } = useAxios({ withAuth: true });
-  const { data } = useQuery('userInfo', userService.getMe(api));
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+const SideNav = ({ children }) => {
+  const { logout } = useAxios({ withAuth: true });
 
   return (
     <StyledSider>
       <div>
-        <StyledAvatarContainer>
-          <StyledAvatar size={75}>L</StyledAvatar>
-          <StyledName>Lucas Sodré</StyledName>
-          <Link to="/profile">Profile</Link>
-        </StyledAvatarContainer>
+        <AvatarContainer />
         <Divider />
-
-        <StyledMenu>
-          <StyleMenuTitle>Labels</StyleMenuTitle>
-          <StyledNavLink to="/users">
-            <TeamOutlined />
-            <StyleSpan>Users</StyleSpan>
-          </StyledNavLink>
-
-          <StyledNavLink to="/games">
-            <RocketOutlined />
-            <StyleSpan>Games</StyleSpan>
-          </StyledNavLink>
-        </StyledMenu>
+        {children}
       </div>
       <StyledLogoutButton onClick={logout}>Logout</StyledLogoutButton>
     </StyledSider>
