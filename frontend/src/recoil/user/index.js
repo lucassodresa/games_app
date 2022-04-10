@@ -5,6 +5,11 @@ export const loggedUserInfoState = atom({
   default: null
 });
 
+export const usersOnlineState = atom({
+  key: 'usersOnlineState',
+  default: []
+});
+
 export const isLoggedInSelector = selector({
   key: 'isLoggedInSelector',
   get: ({ get }) => Boolean(get(loggedUserInfoState))

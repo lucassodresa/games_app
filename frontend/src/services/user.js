@@ -1,8 +1,13 @@
 // libraries
 
-const getMe = (axios) => async (payload) => {
-  const res = await axios().get('/users/me', payload);
+const getMe = (axios) => async () => {
+  const res = await axios().get('/users/me');
   return res.data;
 };
 
-export default { getMe };
+const getUsers = (axios) => async () => {
+  const res = await axios().get('/users');
+  return res.data;
+};
+
+export default { getMe, getUsers };
