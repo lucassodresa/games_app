@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { TeamOutlined, RocketOutlined } from '@ant-design/icons';
 import useAxios from '../../hooks/useAxios';
-import { loggedUserInfoState } from '../../recoil/user';
+import { loggedUserInfoState, usersOnlineState } from '../../recoil/user';
 import userService from '../../services/user';
-
+import { io } from 'socket.io-client';
 import { StyledLayout } from './styles';
 import SideNav from '../SideNav';
 import Menu from '../common/Menu';
 import { Outlet } from 'react-router-dom';
+import { getToken } from '../../helpers/auth';
 
 const items = [
   { to: '/users', icon: <TeamOutlined />, name: 'Users' },
@@ -19,7 +20,27 @@ const items = [
 const Layout = () => {
   const { api } = useAxios({ withAuth: true });
   const { data } = useQuery('userInfo', userService.getMe(api));
-  const setLoggedUserInfo = useRecoilState(loggedUserInfoState)[1];
+  const setLoggedUserInfo = useSetRecoilState(loggedUserInfoState);
+  const setUsersOnline = useSetRecoilState(usersOnlineState);
+
+  useEffect(() => {
+    const token = `Bearer ${getToken()}`;
+    const socket = io('http://localhost:3001', { auth: { token } });
+
+    socket.on('loadUsers', (users) => {
+      setUsersOnline([...users]);
+    });
+    socket.on('newUser', (newUserId) => {
+      setUsersOnline((prevState) => [...prevState, newUserId]);
+    });
+    socket.on('userLeft', (leftUserId) => {
+      setUsersOnline((prevState) =>
+        prevState.filter((id) => id !== leftUserId)
+      );
+    });
+
+    return () => socket.disconnect();
+  }, []);
 
   useEffect(() => {
     data && setLoggedUserInfo(data?.data?.user);

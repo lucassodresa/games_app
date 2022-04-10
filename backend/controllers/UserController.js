@@ -1,16 +1,37 @@
-const { StatusCodes } = require('http-status-codes')
+const { StatusCodes } = require('http-status-codes');
+const UserModel = require('../models/UserModel');
 
 const getMe = async (req, res) => {
   try {
-    const { _id, name, email, role } = req._user
+    const { _id, name, email, role } = req._user;
     return res.status(StatusCodes.OK).jsend.success({
       user: { _id, name, email, role }
-    })
+    });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .jsend.error({ message: error })
+      .jsend.error({ message: error });
   }
-}
+};
 
-module.exports = { getMe }
+const getUsers = async (req, res) => {
+  try {
+    const users = await UserModel.find({ active: true });
+
+    if (!users.length) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .jsend.fail({ message: 'user not founded' });
+    }
+
+    return res.status(StatusCodes.OK).jsend.success({
+      users
+    });
+  } catch (error) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .jsend.error({ message: error });
+  }
+};
+
+module.exports = { getMe, getUsers };

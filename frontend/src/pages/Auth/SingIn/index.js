@@ -31,8 +31,8 @@ const SignIn = () => {
 
   const { mutate, isLoading } = useMutation(authService.signIn(api), {
     onSuccess: ({ data: { message, user, token } }) => {
-      setLoggedUserInfo(user);
       setToken(token);
+      setLoggedUserInfo(user);
       notifySuccess('Sign In', message);
       navigate('/users');
     },

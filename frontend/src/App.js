@@ -20,9 +20,7 @@ function App() {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
   const { login, isLoadingLogin } = useAxios({ withAuth: true });
 
-  useEffect(() => {
-    login();
-  }, [login]);
+  useEffect(login, [login]);
 
   if (isLoadingLogin) return <Spin />;
 
