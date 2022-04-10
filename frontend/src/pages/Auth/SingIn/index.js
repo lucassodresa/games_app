@@ -3,18 +3,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { SCHEMAS } from '@games_app/shared';
-import CustomInput from '../../../common/CustomInput';
-import authService from '../../../../services/auth';
-import CustomParagraph from '../../../common/CustomParagraph';
-import CustomForm from '../../../common/CustomForm';
-import CustomHeading1 from '../../../common/CustomHeading1';
-import CustomButton from '../../../common/CustomButton';
+import CustomInput from '../../../components/common/CustomInput';
+import authService from '../../../services/auth';
+import CustomParagraph from '../../../components/common/CustomParagraph';
+import CustomForm from '../../../components/common/CustomForm';
+import CustomHeading1 from '../../../components/common/CustomHeading1';
+import CustomButton from '../../../components/common/CustomButton';
 import { StyledLink, StyledSection } from '../styles';
-import { notifyError, notifySuccess } from '../../../../helpers/notifications';
-import { loggedUserInfoState } from '../../../../recoil/user';
-import { setToken } from '../../../../helpers/auth';
+import { notifyError, notifySuccess } from '../../../helpers/notifications';
+import { loggedUserInfoState } from '../../../recoil/user';
+import { setToken } from '../../../helpers/auth';
 import { useNavigate } from 'react-router-dom';
-import useAxios from '../../../../hooks/useAxios';
+import useAxios from '../../../hooks/useAxios';
 
 const SignIn = () => {
   const navigate = useNavigate();
