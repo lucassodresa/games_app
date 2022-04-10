@@ -57,7 +57,7 @@ const useAxios = (props) => {
   );
 
   const login = useCallback(() => {
-    mutate();
+    if (getToken()) mutate();
   }, [mutate]);
 
   return { api, logout, login, isLoadingLogin: isLoading };
