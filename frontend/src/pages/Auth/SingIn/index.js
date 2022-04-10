@@ -34,7 +34,7 @@ const SignIn = () => {
       setLoggedUserInfo(user);
       setToken(token);
       notifySuccess('Sign In', message);
-      navigate('/');
+      navigate('/users');
     },
     onError: ({ response: { data } }) =>
       notifyError('Sign In', data?.data?.message)

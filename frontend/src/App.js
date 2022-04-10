@@ -1,14 +1,15 @@
 import { Spin } from 'antd';
-import { Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import SignUp from './pages/Auth/SignUp';
 import SignIn from './pages/Auth/SingIn';
-import Home from './pages/Home';
 import useAxios from './hooks/useAxios';
 import { isLoggedInSelector } from './recoil/user';
+import Users from './pages/Private/Users';
+import Games from './pages/Private/Games';
 
 const SytledApp = styled.div`
   background: ${(props) => (props.isLoggedIn ? '#F2F2F2' : '#fff')};
@@ -37,7 +38,10 @@ function App() {
           element={isLoggedIn ? <Navigate to="/" /> : <SignIn />}
         />
         <Route path="/" element={<ProtectedRoute />}>
-          <Route index element={<Home />} />
+          <Route index element={<Navigate to="/users" />} />
+          <Route index path="/users" element={<Users />} />
+          <Route path="/games" element={<Games />} />
+          <Route path="/profile" element={<h1>Profile</h1>} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

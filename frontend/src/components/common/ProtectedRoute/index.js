@@ -1,11 +1,12 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { isLoggedInSelector } from '../../../recoil/user';
+import Layout from '../../Layout';
 
 const ProtectedRoute = () => {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
-  return isLoggedIn ? <Outlet /> : <Navigate to="/signin" />;
+  return isLoggedIn ? <Layout /> : <Navigate to="/signin" />;
 };
 
 export default ProtectedRoute;
