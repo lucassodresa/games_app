@@ -1,11 +1,14 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const jsend = require('jsend');
 const cors = require('cors');
 
 const app = express();
 const routes = require('./routes');
+const validateTokenSocket = require('./middleware/validateTokenSocket');
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -18,4 +21,8 @@ app.use(express.json());
 app.use(jsend.middleware);
 app.use('/api', routes);
 
-app.listen(process.env.PORT, () => console.log('Server running!'));
+const serverHttp = http.createServer(app);
+const io = new Server(serverHttp, { cors: { origin: '*' } });
+io.use(validateTokenSocket);
+
+module.exports = { serverHttp, io };
