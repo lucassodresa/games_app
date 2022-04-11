@@ -6,6 +6,8 @@ export const StyledPage = styled.main`
   padding: 35px 40px 0 40px;
   background: white;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const StyledTitle = styled.h1`

@@ -4,7 +4,7 @@ import { StyledPage, StyledTitle } from './styles';
 
 const Page = ({ children, title }) => {
   return (
-    <StyledPage>
+    <StyledPage className="animationLeft">
       <StyledTitle>{title}</StyledTitle>
       {children}
     </StyledPage>
