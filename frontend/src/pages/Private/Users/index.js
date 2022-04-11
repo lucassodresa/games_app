@@ -17,7 +17,8 @@ const Users = () => {
     console.log(data);
   }, [data]);
 
-  const sortFuncByName = (item1, item2) => (item1.name > item2.name ? 1 : -1);
+  const sortFuncByName = (item1, item2) =>
+    item1.name.toLowerCase() > item2.name.toLowerCase() ? 1 : -1;
 
   const users = data?.data?.users || [];
 
