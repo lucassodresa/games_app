@@ -14,6 +14,9 @@ import {
 } from '@ant-design/icons';
 
 import { v4 as uuid } from 'uuid';
+import ListItem from '../../../components/common/ListItem';
+import CustomAvatar from './components/CustomAvatar';
+import CustomDivider from './components/CustomDivider';
 
 const Users = () => {
   const [isOpenedModal, setIsOpenedModal] = useState(false);
@@ -69,14 +72,14 @@ const Users = () => {
       </Modal>
       <Page title="Users">
         <StyledListContainer>
-          <Divider style={{ paddingBottom: '30px' }} orientation="left">
-            <Badge status="success" count={usersOnline.length} showZero>
-              <WifiOutlined />
-              <span style={{ marginLeft: '5px', paddingRight: '10px' }}>
-                Online
-              </span>
-            </Badge>
-          </Divider>
+          <CustomDivider
+            text="Online"
+            icon={<WifiOutlined />}
+            count={usersOnline.length}
+            status="success"
+            style={{ paddingBottom: '30px' }}
+          />
+
           <List
             itemLayout="horizontal"
             dataSource={usersOnline}
@@ -88,100 +91,52 @@ const Users = () => {
                   text="YOU"
                   key={_id}
                 >
-                  <List.Item
-                    actions={[
-                      loggedUserInfo._id !== _id && (
-                        <Button
-                          onClick={() => handleInvite(_id)}
-                          type="primary"
-                          icon={<UserAddOutlined />}
-                          block
-                        >
-                          Invite
-                        </Button>
-                      )
-                    ]}
-                  >
-                    <List.Item.Meta
-                      avatar={
-                        <Badge
-                          style={{
-                            height: '10px',
-                            width: '10px',
-                            minWidth: '10px'
-                          }}
-                          size="default"
-                          dot
-                          status="success"
-                          offset={[-5, 25]}
-                        >
-                          <Avatar src="https://joeschmoe.io/api/v1/random" />
-                        </Badge>
-                      }
-                      title={name}
-                      description={email}
-                    />
-                  </List.Item>
-                </Badge.Ribbon>
-              ) : (
-                <List.Item
-                  actions={[
-                    loggedUserInfo._id !== _id && (
-                      <Button
-                        onClick={() => handleInvite(_id)}
-                        type="primary"
-                        icon={<UserAddOutlined />}
-                        block
-                      >
-                        Invite
-                      </Button>
-                    )
-                  ]}
-                >
-                  <List.Item.Meta
-                    avatar={
-                      <Badge
-                        dot
-                        status="success"
-                        offset={[-5, 25]}
-                        style={{
-                          height: '10px',
-                          width: '10px',
-                          minWidth: '10px'
-                        }}
-                      >
-                        <Avatar src="https://joeschmoe.io/api/v1/random" />
-                      </Badge>
-                    }
+                  <ListItem
+                    avatar={<CustomAvatar />}
                     title={name}
                     description={email}
                   />
-                </List.Item>
+                </Badge.Ribbon>
+              ) : (
+                <ListItem
+                  title={name}
+                  description={email}
+                  avatar={<CustomAvatar />}
+                  actions={[
+                    <Button
+                      key={_id}
+                      onClick={() => handleInvite(_id)}
+                      type="primary"
+                      icon={<UserAddOutlined />}
+                      block
+                    >
+                      Invite
+                    </Button>
+                  ]}
+                />
               )
             }
           />
-          <Divider
-            orientation="left"
+
+          <CustomDivider
+            text="Offline"
+            icon={<DisconnectOutlined />}
+            count={usersOffline.length}
+            status="Error"
             style={{ paddingTop: '20px', paddingBottom: '5px' }}
-          >
-            <Badge status="Error" count={usersOffline.length} showZero>
-              <DisconnectOutlined />
-              <span style={{ marginLeft: '5px', paddingRight: '10px' }}>
-                Offline
-              </span>
-            </Badge>
-          </Divider>
+          />
+
           <List
             itemLayout="horizontal"
             dataSource={usersOffline}
             renderItem={({ _id, name, email }) => (
-              <List.Item key={_id} style={{ opacity: '.7' }}>
-                <List.Item.Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title={<a href="https://ant.design">{name}</a>}
-                  description={email}
-                />
-              </List.Item>
+              <ListItem
+                key={_id}
+                style={{ opacity: '.7' }}
+                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                title={name}
+                description={email}
+              />
             )}
           />
         </StyledListContainer>
