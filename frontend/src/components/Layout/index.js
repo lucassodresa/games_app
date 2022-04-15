@@ -12,6 +12,7 @@ import { Outlet } from 'react-router-dom';
 
 import { io } from 'socket.io-client';
 import { getToken } from '../../helpers/auth';
+import { notifyInvite } from '../../helpers/notifications';
 
 const items = [
   { to: '/users', icon: <TeamOutlined />, name: 'Users' },
@@ -23,27 +24,33 @@ const Layout = () => {
   const { data } = useQuery('userInfo', userService.getMe(api));
   const setLoggedUserInfo = useSetRecoilState(loggedUserInfoState);
   const setUsersOnline = useSetRecoilState(usersOnlineState);
-  const [socket, setSocket] = useState(null);
+  //   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socketInstance = io('http://localhost:3001/users', {
+    const socket = io('http://localhost:3001/users', {
       auth: { token: `Bearer ${getToken()}` }
     });
-    socketInstance.on('loadUsers', (users) => {
+    socket.on('loadUsers', (users) => {
       setUsersOnline([...users]);
     });
-    socketInstance.on('newUser', (newUserId) => {
+    socket.on('newUser', (newUserId) => {
       setUsersOnline((prevState) => [...prevState, newUserId]);
     });
-    socketInstance.on('userLeft', (leftUserId) => {
+    socket.on('userLeft', (leftUserId) => {
       setUsersOnline((prevState) =>
         prevState.filter((id) => id !== leftUserId)
       );
     });
-    setSocket(socketInstance);
-    console.log('render');
 
-    return () => socketInstance.close();
+    socket.on('games:invite', ({ roomId, userHost }) => {
+      notifyInvite(userHost.name, 'some description');
+      console.log(roomId);
+    });
+
+    // setSocket(socketInstance);
+    // console.log('render');
+
+    return () => socket.close();
   }, [setUsersOnline]);
 
   useEffect(() => {
@@ -54,7 +61,7 @@ const Layout = () => {
       <SideNav>
         <Menu items={items} />
       </SideNav>
-      <Outlet context={{ socket }} />
+      <Outlet /*context={{ socket }}*/ />
     </StyledLayout>
   );
 };
