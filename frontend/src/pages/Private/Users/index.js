@@ -13,7 +13,6 @@ import {
   WifiOutlined
 } from '@ant-design/icons';
 
-import { v4 as uuid } from 'uuid';
 import ListItem from '../../../components/common/ListItem';
 import CustomAvatar from './components/CustomAvatar';
 import CustomDivider from './components/CustomDivider';
