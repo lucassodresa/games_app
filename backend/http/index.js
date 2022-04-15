@@ -8,7 +8,6 @@ const cors = require('cors');
 
 const app = express();
 const routes = require('./routes');
-const validateTokenSocket = require('./middleware/validateTokenSocket');
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -23,6 +22,5 @@ app.use('/api', routes);
 
 const serverHttp = http.createServer(app);
 const io = new Server(serverHttp, { cors: { origin: '*' } });
-io.use(validateTokenSocket);
 
 module.exports = { serverHttp, io };

@@ -1,8 +1,8 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const UserModel = require('../models/UserModel');
+const UserModel = require('../../models/UserModel');
 
-const validateTokenSocket = async (socket, next) => {
+const validateToken = async (socket, next) => {
   try {
     const authToken = socket?.handshake?.auth?.token;
 
@@ -29,4 +29,4 @@ const validateTokenSocket = async (socket, next) => {
   }
 };
 
-module.exports = validateTokenSocket;
+module.exports = validateToken;

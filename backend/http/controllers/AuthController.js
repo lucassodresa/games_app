@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { StatusCodes } = require('http-status-codes');
-const UserModel = require('../models/UserModel');
-const { generateToken } = require('../utils/authentication');
+const UserModel = require('../../models/UserModel');
+const { generateToken } = require('../../utils/authentication');
 
 const signUp = async (req, res) => {
   try {

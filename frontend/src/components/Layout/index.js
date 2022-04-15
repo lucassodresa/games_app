@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { TeamOutlined, RocketOutlined } from '@ant-design/icons';
 import useAxios from '../../hooks/useAxios';
 import { loggedUserInfoState, usersOnlineState } from '../../recoil/user';
 import userService from '../../services/user';
-import { io } from 'socket.io-client';
 import { StyledLayout } from './styles';
 import SideNav from '../SideNav';
 import Menu from '../common/Menu';
 import { Outlet } from 'react-router-dom';
+
+import { io } from 'socket.io-client';
 import { getToken } from '../../helpers/auth';
 
 const items = [
@@ -22,35 +23,38 @@ const Layout = () => {
   const { data } = useQuery('userInfo', userService.getMe(api));
   const setLoggedUserInfo = useSetRecoilState(loggedUserInfoState);
   const setUsersOnline = useSetRecoilState(usersOnlineState);
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const token = `Bearer ${getToken()}`;
-    const socket = io('http://localhost:3001', { auth: { token } });
-
-    socket.on('loadUsers', (users) => {
+    const socketInstance = io('http://localhost:3001/users', {
+      auth: { token: `Bearer ${getToken()}` }
+    });
+    socketInstance.on('loadUsers', (users) => {
       setUsersOnline([...users]);
     });
-    socket.on('newUser', (newUserId) => {
+    socketInstance.on('newUser', (newUserId) => {
       setUsersOnline((prevState) => [...prevState, newUserId]);
     });
-    socket.on('userLeft', (leftUserId) => {
+    socketInstance.on('userLeft', (leftUserId) => {
       setUsersOnline((prevState) =>
         prevState.filter((id) => id !== leftUserId)
       );
     });
+    setSocket(socketInstance);
+    console.log('render');
 
-    return () => socket.disconnect();
-  }, []);
+    return () => socketInstance.close();
+  }, [setUsersOnline]);
 
   useEffect(() => {
     data && setLoggedUserInfo(data?.data?.user);
-  }, [data]);
+  }, [data, setLoggedUserInfo]);
   return (
     <StyledLayout>
       <SideNav>
         <Menu items={items} />
       </SideNav>
-      <Outlet />
+      <Outlet context={{ socket }} />
     </StyledLayout>
   );
 };

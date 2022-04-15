@@ -6,6 +6,7 @@ import Layout from '../../Layout';
 
 const ProtectedRoute = () => {
   const isLoggedIn = useRecoilValue(isLoggedInSelector);
+
   return isLoggedIn ? <Layout /> : <Navigate to="/signin" />;
 };
 
