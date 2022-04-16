@@ -11,6 +11,7 @@ import CustomAvatar from '../Users/components/CustomAvatar';
 import userService from '../../../services/user';
 import useAxios from '../../../hooks/useAxios';
 import { v4 as uuid } from 'uuid';
+import { Navigate, useNavigate } from 'react-router-dom';
 const { Option } = Select;
 
 const Games = () => {
@@ -20,19 +21,21 @@ const Games = () => {
   const loggedUserInfo = useRecoilValue(loggedUserInfoState);
   const { api } = useAxios({ withAuth: true });
   const { data } = useQuery('users', userService.getUsers(api));
+  const navigate = useNavigate();
 
   const handleCreateRoom = () => {
     const socket = io('http://localhost:3001/games', {
       auth: { token: `Bearer ${getToken()}` }
     });
-    console.log(userToInvite);
+    const roomId = uuid();
     socket.emit('games:create', {
-      roomId: uuid(),
+      roomId,
       userToInvite
     });
+    navigate(roomId);
+    // socket.disconnect();
   };
 
-  console.log(userToInvite);
   const sortFuncByName = useCallback(
     (item1, item2) => (item1.name > item2.name ? 1 : -1),
     []
