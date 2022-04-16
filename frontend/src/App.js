@@ -10,6 +10,7 @@ import useAxios from './hooks/useAxios';
 import { isLoggedInSelector } from './recoil/user';
 import Users from './pages/Private/Users';
 import Games from './pages/Private/Games';
+import Game from './pages/Private/Game';
 
 const SytledApp = styled.div`
   background: ${(props) => (props.isLoggedIn ? '#F2F2F2' : '#fff')};
@@ -38,7 +39,10 @@ function App() {
         <Route path="/" element={<ProtectedRoute />}>
           <Route index element={<Navigate to="/users" />} />
           <Route index path="/users" element={<Users />} />
-          <Route path="/games" element={<Games />} />
+          <Route path="/games">
+            <Route index element={<Games />} />
+            <Route path=":roomId" element={<Game />} />
+          </Route>
           <Route path="/profile" element={<h1>Profile</h1>} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />

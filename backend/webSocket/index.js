@@ -28,14 +28,12 @@ const gamesNamespace = io.of('/games');
 gamesNamespace.use(validateToken).on('connection', (socket) => {
   socket.on('games:create', ({ roomId, userToInvite }) => {
     const userId = socket._user._id.toString();
-    socket.join(roomId);
+    console.log('inviting');
 
     if (userToInvite) {
-      console.log(userBySocketID);
       const sockets = Object.entries(userBySocketID)
         .filter(([, userId]) => userId === userToInvite)
         .map(([socketId, userId]) => socketId);
-      console.log(sockets);
       sockets.forEach((socketId) =>
         usersNamespace.to(socketId).emit('games:invite', {
           roomId,
@@ -44,5 +42,10 @@ gamesNamespace.use(validateToken).on('connection', (socket) => {
       );
     }
   });
+
+  socket.on('games:join', ({ roomId }) => {
+    console.log('enter room ' + roomId);
+  });
+
   socket.on('disconnect', () => {});
 });

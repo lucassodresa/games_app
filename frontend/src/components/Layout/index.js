@@ -8,7 +8,7 @@ import userService from '../../services/user';
 import { StyledLayout } from './styles';
 import SideNav from '../SideNav';
 import Menu from '../common/Menu';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { io } from 'socket.io-client';
 import { getToken } from '../../helpers/auth';
@@ -25,6 +25,7 @@ const Layout = () => {
   const setLoggedUserInfo = useSetRecoilState(loggedUserInfoState);
   const setUsersOnline = useSetRecoilState(usersOnlineState);
   //   const [socket, setSocket] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const socket = io('http://localhost:3001/users', {
@@ -43,7 +44,9 @@ const Layout = () => {
     });
 
     socket.on('games:invite', ({ roomId, userHost }) => {
-      notifyInvite(userHost.name, 'some description');
+      notifyInvite(userHost.name, 'some description', {
+        onClick: () => navigate(`/games/${roomId}`)
+      });
       console.log(roomId);
     });
 

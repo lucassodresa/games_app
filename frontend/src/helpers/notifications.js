@@ -14,13 +14,16 @@ export const notifySuccess = (title, description) => {
   });
 };
 
-const btn = (
-  <Button type="primary" size="small" onClick={() => {}}>
-    Join
-  </Button>
-);
+const InviteButton = ({ onClick }) => {
+  return (
+    <Button type="primary" size="small" onClick={onClick}>
+      Join
+    </Button>
+  );
+};
 
-export const notifyInvite = (name, description) => {
+export const notifyInvite = (name, description, { onClick }) => {
+  const btn = <InviteButton onClick={onClick} />;
   return notification.info({
     message: `${name} invite you to play.`,
     description,
