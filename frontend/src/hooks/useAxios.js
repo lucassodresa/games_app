@@ -20,7 +20,7 @@ const useAxios = (props) => {
 
   const api = useCallback(() => {
     const axiosInstance = axios.create({
-      baseURL: `http://localhost:3001/api`
+      baseURL: `http://54.75.28.217:3000/api`
     });
 
     axiosInstance.interceptors.response.use(

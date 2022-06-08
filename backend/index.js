@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('./websocket');
+require('./webSocket');
 const { serverHttp } = require('./http');
 const PORT = process.env.PORT || 3001;
 
