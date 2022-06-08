@@ -17,7 +17,7 @@ const Game = () => {
   const [isYourTurn, setIsYourTurn] = useState(false);
 
   useEffect(() => {
-    const socket = io('http://localhost:3001/games', {
+    const socket = io('http://54.75.28.217:3000/games', {
       auth: { token: `Bearer ${getToken()}` }
     });
     socket.emit('games:join', { roomId });

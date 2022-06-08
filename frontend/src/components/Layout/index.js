@@ -28,7 +28,7 @@ const Layout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const socket = io('http://localhost:3001/users', {
+    const socket = io('http://54.75.28.217:3000/users', {
       auth: { token: `Bearer ${getToken()}` }
     });
     socket.on('loadUsers', (users) => {
