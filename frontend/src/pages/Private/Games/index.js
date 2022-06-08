@@ -28,7 +28,7 @@ const Games = () => {
       auth: { token: `Bearer ${getToken()}` }
     });
     const roomId = uuid();
-    socket.emit('games:create', {
+    socket.emit('games:invite', {
       roomId,
       userToInvite
     });

@@ -12,7 +12,10 @@
   "scripts": {
     "frontend": "cd frontend && yarn start",
     "backend": "cd backend && yarn dev",
-    "dev": "concurrently \"yarn backend\" \"yarn frontend\""
+    "frontend:build": "cd frontend && yarn build",
+    "backend:build": "cd backend && yarn start",
+    "dev": "concurrently \"yarn backend\" \"yarn frontend\"",
+    "start": "concurrently \"yarn backend:build\" \"yarn frontend:build\""
   },
   "devDependencies": {
     "concurrently": "^7.1.0"
