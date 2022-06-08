@@ -24,7 +24,7 @@ const Games = () => {
   const navigate = useNavigate();
 
   const handleCreateRoom = () => {
-    const socket = io('http://localhost:3001/games', {
+    const socket = io('http://54.75.28.217:3000/games', {
       auth: { token: `Bearer ${getToken()}` }
     });
     const roomId = uuid();
