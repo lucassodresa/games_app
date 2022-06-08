@@ -50,7 +50,7 @@ const useAxios = (props) => {
     {
       onSuccess: () => {
         setIsLoggedIn(true);
-        navigate('/users');
+        navigate(-1);
       },
       onError: () => logout()
     }
